@@ -4,7 +4,7 @@ import random
 
 if self.gladness < 100:
     self.gladness = 0 
-else 
+else
     self.progress< 100:
 self.progress = 0
 
