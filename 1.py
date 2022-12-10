@@ -1,85 +1,47 @@
-import time
-
-import random
-
-if self.gladness < 100:
-    self.gladness = 0 
-else
-    self.progress< 100:
-self.progress = 0
-
-
-
-class Student():
-
-    def __init__(self, name):
-
+class Monster():
+    def __init__(self, name, hp, mp, offense, defense):
         self.name = name
+        self.max_hp = hp
+        self.hp = hp
+        self.mp = mp
+        self.offense = offense
+        self.defense = defense
 
-        self.gladness = 50  # %
+    def heal(self, value):
+        #! Добавить к жизни значение
+        #! Проверить, чтобы не было больше, чем в начале
+        self.hp += value
+        if self.hp > self.max_hp:
+            self.hp = self.max_hp
 
-        self.progress = 0  # %
-
-
-
-    def study(self):
-        random.randint(1,10)
-        self.progress +=(random.randint(1,10))
-        self.gladness -=(random.randint(1,10))
-        # Повышается progress, но не может быть выше 100 (рандомно на 1-10)
-
-        # Но понижается gladness, но не ниже 0 (рандомно на 1-10)
-
-        print(
-
-            f"{self.name} учится. Прогресс - {self.progress} | Счастье - {self.gladness}")
-
-
-
-    def rest(self):
-        self.gladness +=(random.randint(1,10))
-        self.progress -=(random.randint(1,10))
-
-        # Повышается gladness, но не может быть выше 100 (рандомно на 1-10)
-
-        # Но понижается progress, но не ниже 0 (рандомно на 1-10)
-
-        print(
-
-            f"{self.name} отдыхает. Прогресс - {self.progress} | Счастье - {self.gladness}")
+    def getDamage(self, value):
+        #! Если hp будет меньше или равно 0, то тогда пишем, что монстр погиб
+        self.hp -= value
+        if self.hp <= 0:
+            print(f"{self.name} погиб")
 
 
+m1 = Monster(name="Минотавр Легкий", hp=10, mp=10, offense=10, defense=10)
+m2 = Monster("Минотавр Средний", 20, 20, 20, 20)
 
-
-students = [
-
-    Student("Антон"),
-
-    Student("Артем"),
-
-    Student("Олег"),
-
-]
-
-
-
-day = 1
-
-while True:
-
-    print(f"Day: {day}")
-
-    for student in students:
-        random.randint(print.rest, study)
-
-        # Случайно студент или отдыхает или учится
-
-        # student.rest()
-
-        # student.study()
-
-        pass
-
-    day += 1
-
-    time.sleep(0.1)
+print(m2.hp)
+m2.heal(value=10)
+print(m2.hp)
+m2.heal(value=10)
+print(m2.hp)
+m2.heal(value=10)
+print(m2.hp)
+m2.hp = 7
+print(m2.hp)
+m2.heal(value=10)
+print(m2.hp)
+m2.heal(value=10)
+print(m2.hp)
+m2.getDamage(value=5)
+print(m2.hp)
+m2.getDamage(value=5)
+print(m2.hp)
+m2.getDamage(value=5)
+print(m2.hp)
+m2.getDamage(value=5)
+print(m2.hp)
