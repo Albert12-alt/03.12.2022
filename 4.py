@@ -38,7 +38,4 @@ class  Archer():
         self.fireball_attack = 15
  def  Secrecy(self):
     self.name = None
-
-K = knight(1)
-M = Magus(2)
-A = Archer(3)
+    
