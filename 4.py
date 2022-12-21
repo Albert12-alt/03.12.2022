@@ -7,34 +7,38 @@ class Class():
 def handKick(self):
     pass
 
-class knight():
+class knight(Class):
+       def __int__(self , name):
+        super(name)
+        self.hp = 150
 
- def __int__(self , name):
-    self.name = name
-    self.hp = 150
- def  swordAttack(self):
+       def  swordAttack(self):
         self.sword_attack = 20
- def  shieldAttack(self):
+
+       def  shieldAttack(self):
         self.shield_attack = 10
- def  evasion(self):
+
+       def  evasion(self):
         self.save_hp = 140
 
-class  Magus():
+class  Magus(Class):
+       def __int__(self , name):
+              super(name)
+              self.points += 5
+              self.hp = 200
+       def  fireballAttack(self):
+              self.fireball_attack = 40
 
- def __int__(self , name):
-    self.name = name
-    self.hp = 200
- def  fireballAttack(self):
-        self.fireball_attack = 40
- def  teleport(self):
-        self.save_hp = 200
+       def  teleport(self):
+              self.save_hp = 200
 
-class  Archer():
+class  Archer(Class):
+       def __int__(self , name):
+              super(name)
+              self.hp = 130
 
- def __int__(self , name):
-    self.name = name
-    self.hp = 130
- def  ArcheryAttack(self):
-        self.fireball_attack = 15
- def  Secrecy(self):
-    self.name = None
+       def  ArcheryAttack(self):
+              self.fireball_attack = 15
+
+       def  unhide(self):
+              self.name = self.bufer
