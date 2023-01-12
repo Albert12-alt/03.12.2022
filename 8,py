@@ -1,0 +1,180 @@
+import random
+
+
+class Unit:
+    def __init__(self, name, weapon, armor):
+        self.name = name
+        self.armor = armor
+        self.weapon = weapon
+        self.hp = 100
+        self.heal_active = False
+
+    def changeArmor(self, armor):
+        self.armor = armor
+
+    def changeWeapon(self, weapon):
+        self.weapon = weapon
+
+    def heal(self):
+        # Исцеляет взависимости от уровня
+        self.hp += 15 + 5 * self.level
+        if self.hp > 100:
+            self.hp = 100
+
+    def attack(self, enemy):
+        self.heal_active = True
+        if not enemy.armor.isBroken():
+            enemy.hp -= enemy.armor.getDamage(self.weapon.attack())
+        else:
+            enemy.hp -= self.weapon.attack()
+        print(f"{self.name} атакует {enemy.name}. {enemy.name} здоровье: {enemy.hp}, защита: {enemy.armor.endurance}")
+
+
+class Player(Unit):
+    def __init__(self, name, weapon, armor):
+        Unit.__init__(self, name, weapon, armor)
+        self.level = 1
+        self.skill = None
+
+    def lvlUP(self):
+        self.level += 1
+        if self.level == 10:
+            print("Выберете навык:")
+            print("1. Двойной урон")
+            print("2. Двойное исцеление")
+            ch = int(input("-> "))
+            self.skill = ch
+
+    def useSkill(self, enemy):
+        if self.skill == 1:
+            self.attack(enemy)
+            self.attack(enemy)
+        if self.skill == 2:
+            self.heal()
+            self.heal()
+
+
+class Enemy(Unit):
+    def __init__(self, name, hp, attack, block):
+        Unit.__init__(self, name, Weapon("Кулаки", attack),
+                      Armor("Тело", block, 1))
+        self.hp = hp
+
+
+class Weapon:
+    def __init__(self, name, offense):
+        self.name = name
+        self.offense = offense
+
+    def getName(self):
+        return self.name
+
+    def attack(self):
+        return self.offense
+
+
+class Armor:
+    def __init__(self, name, defense, endurance):
+        self.name = name
+        self.defense = defense
+        self.endurance = endurance
+
+    def getDamage(self, damage):
+        self.endurance -= damage
+        if self.endurance <= 0:
+            self.endurance = 0
+        if(self.defense >= damage):
+            return 0
+        else:
+            return damage - self.defense
+
+    def isBroken(self):
+        if self.endurance > 0:
+            return False
+        else:
+            return True
+
+
+# Написать варианты снаряжения
+weapons = [
+    Weapon("Меч", 30),
+    Weapon("Нож", 10),
+    Weapon("Мотыга", 20),
+    Weapon("Лопата", 15),
+]
+
+
+# Написать варианты снаряжения
+armors = [
+    Armor("Одежка", 10, 25),
+    Armor("Коженые Латы", 15, 50),
+    Armor("Железные латы", 20, 75),
+    Armor("Кальчуга", 25, 100),
+    Armor("Броня", 20, 125),
+]
+
+
+# Добавиить названия монстров
+enemy_names = [
+    "Кентравр",
+    "Минотавр",
+    "Тролль",
+    "Эйнхерий",
+]
+
+player = Player("Странник", Weapon("Деревянный меч", 15),
+                Armor("Рубашка", 10, 20))
+
+while True:
+    print(f"Уровень: {player.level}")
+    enemy = Enemy(random.choice(enemy_names), 20 + 5 *
+                  random.randint(1, player.level), 10 + 2 * random.randint(1,
+                                                                           player.level), 10 + 5 * random.randint(1, player.level))
+    step = 1
+    while enemy.hp > 0:
+        print(f"Ход {step}")
+        print(
+            f"{player.name}:{player.level}. hp:{player.hp}/d:{player.armor.defense}/e:{player.armor.endurance}/a:{player.weapon.offense}")
+        print(
+            f"Враг: {enemy.name}. hp:{enemy.hp}/d:{enemy.armor.defense}/e:{enemy.armor.endurance}/a:{enemy.weapon.offense}")
+        print("1. Атаковать")
+        if player.heal_active:
+            print("2. Исцелиться")
+        if player.skill:
+            print("3. Использовать навык")
+        choose = int(input("-> "))
+        if choose == 1:
+            player.attack(enemy)
+        elif choose == 2:
+            player.heal()
+        elif choose == 3:
+            player.useSkill(enemy)
+        enemy.attack(player)
+        if player.hp <= 0:
+            print("GAME OVER")
+            exit(0)
+        step += 1
+    player.lvlUP()
+    r = random.randint(1, 100)
+    if r <= 10:
+        w = random.choice(weapons)
+        w.offense += 5 * random.randint(-1, player.level)
+        a = random.choice(armors)
+        a.defense += 5 * random.randint(-1, player.level)
+        a.endurance += 10 * random.randint(-1, player.level)
+        print(f"Оружие {w.name}. Атака: {w.offense}")
+        print(
+            f"Ваше оружие {player.weapon.name}. Атака: {player.weapon.offense}")
+        print("1. Одеть")
+        print("2. Игнорировать")
+        choose = int(input("-> "))
+        if choose == 1:
+            player.changeWeapon(w)
+        print(f"Броня {a.name}. Защита: {a.defense}. Прочность {a.endurance}")
+        print(
+            f"Ваша броня {player.armor.name}. Защита: {player.armor.defense}. Прочность {player.armor.endurance}")
+        print("1. Одеть")
+        print("2. Игнорировать")
+        choose = int(input("-> "))
+        if choose == 1:
+            player.changeArmor(a)
