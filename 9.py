@@ -34,4 +34,4 @@ def washen(self):
 
 def   ElectricShock(self, target):
          print(f"{self.name} бьет током")
-         target.hp -= 18
+         target.hp -= 10
