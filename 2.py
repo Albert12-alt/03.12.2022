@@ -29,6 +29,9 @@ class Frog():
 
 
 
-Frog1 = Frog(name="Карк", age="3" , size="15 сантиметров", Jumprange="10 сантиметров" , color="зеленый" )
+#Frog1 = Frog(name="Карк", age="3" , size="15 сантиметров", Jumprange="10 сантиметров" , color="зеленый" )
 
-Frog1.greeting()
+#Frog1.greeting()
+
+Frog1 = Frog
+Frog1.name
